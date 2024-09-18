@@ -38,6 +38,7 @@ type Client struct {
 	apiExtraPath string
 	httpClient   *http.Client
 	repos        *RepoService
+	teamRepo     *TeamRepoService
 }
 
 // NewClient returns a new Github Client
@@ -60,10 +61,15 @@ func NewClient(opts ClientOpts) *Client {
 	}
 
 	res.repos = newRepoService(res.httpClient, res.apiUrl, res.apiExtraPath, opts.Token)
+	res.teamRepo = newTeamRepoService(res.httpClient, res.apiUrl, res.apiExtraPath, opts.Token)
 
 	return res
 }
 
 func (c *Client) Repos() *RepoService {
 	return c.repos
+}
+
+func (c *Client) TeamRepo() *TeamRepoService {
+	return c.teamRepo
 }
